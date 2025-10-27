@@ -27,4 +27,10 @@ Flask, SQLite, Jinja2, Bootstrap 5. Optional: NLTK for NLP.
 - **Export**: Navbar → download report with stats/tables.
 
 SQUARE Workflow: Input functional → Suggest security → Prioritize → Export for assurance.
+security_tool/
+├── app.py
+├── requirements.txt
+├── templates/
+│   add remaining files
+└
 
