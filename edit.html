@@ -1,0 +1,38 @@
+<!-- templates/edit.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Edit Requirement</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="functional_req" class="form-label">Functional Requirement:</label>
+            <textarea class="form-control" id="functional_req" name="functional_req" rows="3" required>{{ req[1] }}</textarea>
+        </div>
+        
+        <div class="mb-3">
+            <label for="category" class="form-label">Category:</label>
+            <select class="form-select" id="category" name="category">
+                {% for cat in categories %}
+                    <option value="{{ cat }}" {% if (req[4] or 'Other') == cat %}selected{% endif %}>{{ cat }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="priority" class="form-label">Priority:</label>
+            <select class="form-select" id="priority" name="priority" required>
+                <option value="High" {% if req[3] == 'High' %}selected{% endif %}>High</option>
+                <option value="Medium" {% if req[3] == 'Medium' %}selected{% endif %}>Medium</option>
+                <option value="Low" {% if req[3] == 'Low' %}selected{% endif %}>Low</option>
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="security_req" class="form-label">Security Requirement:</label>
+            <textarea class="form-control" id="security_req" name="security_req" rows="4" required>{{ req[2] }}</textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Update Requirement</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}

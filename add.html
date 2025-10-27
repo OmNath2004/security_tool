@@ -1,0 +1,65 @@
+<!-- templates/add.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Add New Requirement</h2>
+    <form method="POST" id="addForm">
+        <div class="mb-3">
+            <label for="functional_req" class="form-label">Functional Requirement:</label>
+            <textarea class="form-control" id="functional_req" name="functional_req" rows="3" required placeholder="e.g., Users can login with email and password"></textarea>
+        </div>
+        
+        <div class="mb-3">
+            <label for="category" class="form-label">Category:</label>
+            <select class="form-select" id="category" name="category">
+                <option value="">Auto-detect</option>
+                <option value="Auth">Auth</option>
+                <option value="Payment">Payment</option>
+                <option value="Data">Data</option>
+                <option value="API">API</option>
+                <option value="Network">Network</option>
+                <option value="Access">Access</option>
+                <option value="Compliance">Compliance</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="priority" class="form-label">Priority:</label>
+            <select class="form-select" id="priority" name="priority" required>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="security_req" class="form-label">Suggested Security Requirement:</label>
+            <textarea class="form-control" id="security_req" name="security_req" rows="4" readonly placeholder="Suggestion will appear here..."></textarea>
+            <small class="text-muted">Auto-generated via keyword analysis (SQUARE-inspired). Edit after saving if needed.</small>
+        </div>
+        
+        <button type="submit" class="btn btn-success">Add Requirement</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+
+    <script>
+        document.getElementById('functional_req').addEventListener('input', function() {
+            const req = this.value;
+            if (req) {
+                fetch('/suggest', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ functional_req: req })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('security_req').value = data.security_req;
+                });
+            } else {
+                document.getElementById('security_req').value = '';
+            }
+        });
+    </script>
+    <p class="mt-3"><em>Tip: Type a functional requirement to see real-time security suggestions based on keywords.</em></p>
+{% endblock %}
